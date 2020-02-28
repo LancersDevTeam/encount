@@ -7,6 +7,7 @@ use Cake\Core\Configure;
 use Cake\Core\InstanceConfigTrait;
 use Encount\Collector\EncountCollector;
 use Exception;
+use InvalidArgumentException;
 
 class Encount
 {
