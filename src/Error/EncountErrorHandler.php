@@ -5,6 +5,7 @@ namespace Encount\Error;
 use Cake\Error\ErrorHandler;
 use Encount\Encount;
 use Exception;
+use Throwable;
 
 class EncountErrorHandler extends ErrorHandler
 {
@@ -14,8 +15,13 @@ class EncountErrorHandler extends ErrorHandler
      * @access public
      * @author sakuragawa
      */
-    public function handleError($code, $description, $file = null, $line = null, $context = null)
-    {
+    public function handleError(
+        int $code,
+        string $description,
+        ?string $file = null,
+        ?int $line = null,
+        ?array $context = null
+    ): bool {
         $encount = new Encount();
         $encount->execute($code, $description, $file, $line, $context);
 
@@ -26,9 +32,10 @@ class EncountErrorHandler extends ErrorHandler
      * Encount exception handler
      *
      * @access public
+     * @throws Exception
      * @author sakuragawa
      */
-    public function handleException(Exception $exception)
+    public function handleException(Throwable $exception): void
     {
         $encount = new Encount();
         $encount->execute($exception);
@@ -42,7 +49,7 @@ class EncountErrorHandler extends ErrorHandler
      * @access public
      * @author sakuragawa
      */
-    public function handleFatalError($code, $description, $file, $line)
+    public function handleFatalError(int $code, string $description, string $file, int $line): bool
     {
         $encount = new Encount();
         $encount->execute($code, 'FatalError', $description, $file, $line);
