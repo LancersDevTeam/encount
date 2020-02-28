@@ -1,5 +1,5 @@
 {
-    "name": "fusic/encount",
+    "name": "lancers/encount",
     "description": "Encount plugin for CakePHP",
     "type": "cakephp-plugin",
     "require": {
