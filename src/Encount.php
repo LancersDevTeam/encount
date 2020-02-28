@@ -1,4 +1,5 @@
 <?php
+declare(strict_types=1);
 
 namespace Encount;
 
@@ -18,12 +19,12 @@ class Encount
         'sender' => ['Encount.Mail'],
         'deny' => [
             'error' => [],
-            'exception' => []
+            'exception' => [],
         ],
         'mail' => [
             'prefix' => '',
-            'html' => true
-        ]
+            'html' => true,
+        ],
     ];
 
     public function __construct()
@@ -47,7 +48,7 @@ class Encount
         }
 
         if ($this->deny($code)) {
-            return ;
+            return;
         }
 
         $collector = new EncountCollector();

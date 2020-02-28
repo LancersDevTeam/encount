@@ -1,10 +1,11 @@
 <?php
+declare(strict_types=1);
 
 namespace Encount\Collector;
 
-use Cake\Routing\Router;
-use Cake\Error\Debugger;
 use Cake\Error\BaseErrorHandler;
+use Cake\Error\Debugger;
+use Cake\Routing\Router;
 use Exception;
 
 class EncountCollector
@@ -57,13 +58,13 @@ class EncountCollector
 
         $isCli = PHP_SAPI === 'cli';
         if ($isCli) {
-            return ;
+            return;
         }
 
         $this->url = $this->url();
         $this->ip = $this->ip();
         $this->referer = env('HTTP_REFERER');
-        $this->session = isset($_SESSION) ? $_SESSION : array();
+        $this->session = $_SESSION ?? [];
         $this->environment = $_SERVER;
         $this->cookie = $_COOKIE;
 
@@ -95,7 +96,7 @@ class EncountCollector
      * @access public
      * @author sakuragawa
      */
-    public function ip($safe=true)
+    public function ip($safe = true)
     {
         if (!$safe && env('HTTP_X_FORWARDED_FOR')) {
             $env = 'HTTP_X_FORWARDED_FOR';
@@ -125,7 +126,8 @@ class EncountCollector
      * @access public
      * @author sakuragawa
      */
-    public function __debugInfo() {
+    public function __debugInfo()
+    {
         return [
             'url' => $this->url,
             'ip' => $this->ip,
@@ -134,7 +136,7 @@ class EncountCollector
             'trace' => $this->trace,
             'session' => $this->session,
             'environment' => $this->environment,
-            'cookie' => $this->cookie
+            'cookie' => $this->cookie,
         ];
     }
 }

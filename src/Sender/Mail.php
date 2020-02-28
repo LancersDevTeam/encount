@@ -1,13 +1,13 @@
 <?php
+declare(strict_types=1);
+
 namespace Encount\Sender;
 
-use Cake\Mailer\Email;
 use Cake\I18n\Time;
-use Cake\Routing\Router;
-use Cake\Error\Debugger;
+use Cake\Mailer\Email;
+use Encount\Collector\EncountCollector;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
-use Encount\Collector\EncountCollector;
 
 class Mail implements SenderInterface
 {
@@ -45,7 +45,7 @@ class Mail implements SenderInterface
         $prefix = $config['mail']['prefix'];
         $date = Time::now()->format('Ymd H:i:s');
 
-        $subject = $prefix . '['. $date . '][' . strtoupper($collector->errorType) . '][' . $collector->url . '] ' . $collector->description;
+        $subject = $prefix . '[' . $date . '][' . strtoupper($collector->errorType) . '][' . $collector->url . '] ' . $collector->description;
         return $subject;
     }
 
@@ -55,7 +55,8 @@ class Mail implements SenderInterface
      * @access private
      * @author sakuragawa
      */
-    private function body($config, $collector){
+    private function body($config, $collector)
+    {
         $html = $config['mail']['html'];
         if ($html === true) {
             return self::getHtml($collector);
@@ -70,7 +71,8 @@ class Mail implements SenderInterface
      * @access private
      * @author sakuragawa
      */
-    private function getText($collector) {
+    private function getText($collector)
+    {
         $message = $collector->description;
         $params = $collector->requestParams;
         $trace = $collector->trace;
@@ -79,7 +81,7 @@ class Mail implements SenderInterface
         $line = $collector->line;
         $context = $collector->context;
 
-        $msg = array(
+        $msg = [
             $message,
             $file . '(' . $line . ')',
             '',
@@ -123,7 +125,7 @@ class Mail implements SenderInterface
             '',
             trim(print_r($context, true)),
             '',
-            );
+            ];
         return join("\n", $msg);
     }
 
@@ -133,7 +135,8 @@ class Mail implements SenderInterface
      * @access private
      * @author sakuragawa
      */
-    private function getHtml($collector){
+    private function getHtml($collector)
+    {
         $message = $collector->description;
         $params = $collector->requestParams;
         $trace = $collector->trace;
@@ -142,7 +145,7 @@ class Mail implements SenderInterface
         $line = $collector->line;
         $context = $collector->context;
 
-        $msg = array(
+        $msg = [
             '<p><strong>',
             $message,
             '</strong></p>',
@@ -197,7 +200,7 @@ class Mail implements SenderInterface
             '',
             self::dumper($context),
             '',
-            );
+            ];
         return join("", $msg);
     }
 
@@ -208,7 +211,8 @@ class Mail implements SenderInterface
      * @access private
      * @author sakuragawa
      */
-    private function dumper($obj) {
+    private function dumper($obj)
+    {
         ob_start();
         $cloner = new VarCloner();
         $dumper = new HtmlDumper();

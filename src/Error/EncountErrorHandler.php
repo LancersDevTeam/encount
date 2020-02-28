@@ -1,10 +1,10 @@
 <?php
+declare(strict_types=1);
 
 namespace Encount\Error;
 
 use Cake\Error\ErrorHandler;
 use Encount\Encount;
-use Exception;
 use Throwable;
 
 class EncountErrorHandler extends ErrorHandler
@@ -32,7 +32,7 @@ class EncountErrorHandler extends ErrorHandler
      * Encount exception handler
      *
      * @access public
-     * @throws Exception
+     * @throws \Exception
      * @author sakuragawa
      */
     public function handleException(Throwable $exception): void
