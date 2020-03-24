@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace Encount\Sender;
 
+use Cake\Core\Configure;
 use Cake\I18n\Time;
-use Cake\Mailer\Email;
+use Cake\Mailer\Mailer;
+use Cake\Mailer\TransportFactory;
 use Encount\Collector\EncountCollector;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\HtmlDumper;
