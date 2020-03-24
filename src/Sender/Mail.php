@@ -19,19 +19,26 @@ class Mail implements SenderInterface
      */
     public function send($config, EncountCollector $collector)
     {
-        $subject = $this->subject($config, $collector);
-        $body = $this->body($config, $collector);
+        $transport = Configure::read('Email.error.transport');
 
         $format = 'text';
         if ($config['mail']['html'] === true) {
             $format = 'html';
         }
 
-        $email = new Email('error');
-        $email
+        $from = Configure::read('Email.error.from');
+        $to = Configure::read('Email.error.to');
+        $subject = $this->subject($config, $collector);
+        $body = $this->body($config, $collector);
+
+        TransportFactory::setConfig(Configure::consume('EmailTransport'));
+        $mailer = new Mailer();
+        $mailer->setTransport($transport)
             ->setEmailFormat($format)
+            ->setFrom($from)
+            ->setTo($to)
             ->setSubject($subject)
-            ->send($body);
+            ->deliver($body);
     }
 
     /**
